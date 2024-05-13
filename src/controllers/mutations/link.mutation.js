@@ -2,7 +2,13 @@ import Link from "../../models/Link.js";
 
 export const createLink = async (req, res) => {
     try {
-        const { url, name } = req.body;
+        //check if url has http or https, if not, add
+        let { url, name } = req.body;
+
+        if (!url.includes("http") && !url.includes("https")) {
+            url = `https://${url}`;
+        }
+
         const {id} = req.user;
         const link = await Link.create({ url, website:name, clientId: id });
         
