@@ -83,9 +83,9 @@ export const getClient = async (req, res) => {
             return res.status(401).json({ error: "Client not found" });
         }
 
-        const { phone, name, email } = client;
+        const { phone, name, email, _id } = client;
 
-        res.status(200).json({ message: "Client found", data: { phone, name, email } });
+        res.status(200).json({ message: "Client found", data: { phone, name, email, _id } });
     } catch (error) {
         console.log(error);
         return res.status(500).json({
