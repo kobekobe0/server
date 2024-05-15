@@ -149,3 +149,33 @@ export const getScannedClients = async (req, res) => {
         });
     }
 }
+
+
+export const addClientToScanned = async (req, res) => {
+    try {
+        const { id } = req.query;
+        const { id: clientId } = req.user;
+        const client = await AppClient.findById(clientId);
+        if (!client) {
+            return res.status(401).json({ error: "Client not found" });
+        }
+
+        //check if the client has already been scanned
+        if (client.scanned.includes(id)) {
+            return res.status(400).json({ error: "Client already scanned" });
+        }
+
+        client.scanned.push(id);
+        await client.save();
+        
+        res.status(200).json({ message: "Client added to scanned", data: client });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: error.message,
+            details: error,
+            function: "addClientToScanned",
+            success: false,
+        });
+    }
+}
