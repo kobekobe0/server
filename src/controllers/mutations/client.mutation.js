@@ -134,8 +134,8 @@ export const getScannedClients = async (req, res) => {
         const scannedClients = await AppClient.find({ _id: { $in: client.scanned } });
         //only return the name, email and phone of the clients
         const data = scannedClients.map((client) => {
-            const { name, email, phone } = client;
-            return { name, email, phone };
+            const { name, email, phone, _id } = client;
+            return { name, email, phone, _id };
         });
 
         res.status(200).json({ message: "Scanned clients found", data });
